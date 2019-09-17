@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 
 /**
- * 含有头部或尾部的 RecyclerView.Adapter
+ * 含有头部或尾部的 RecyclerView.Adapter，采用装饰者模式
  * 可只添加头部
  * 可只添加尾部
  * 可同时添加头部和尾部
@@ -29,9 +29,14 @@ public class HeadEndRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.mAdapter = mAdapter;
     }
 
+    /**
+     * 获取 Item 的类型
+     * @param position
+     * @return
+     */
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 && !checkHeaderNull(mHeaderView)) {
+        if (position == 0 && !checkHeaderNull()) {
             return ITEM_TYPE_HEADER;
         } else if (position == mAdapter.getItemCount() + 1) {
             return ITEM_TYPE_FOOTER;
@@ -54,12 +59,12 @@ public class HeadEndRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (position == 0 && !checkHeaderNull(mHeaderView)) {
+        if (position == 0 && !checkHeaderNull()) {
             return ;
         } else if (position == mAdapter.getItemCount() + 1) {
             return ;
         } else {
-            if (!checkHeaderNull(mHeaderView)) {
+            if (!checkHeaderNull()) {
                 mAdapter.onBindViewHolder((ViewHolder) holder, position - 1);
             } else {
                 mAdapter.onBindViewHolder((ViewHolder) holder, position);
@@ -101,10 +106,9 @@ public class HeadEndRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     /**
      * 判断是否有设置头部 View
      *
-     * @param view
-     * @return
+     * @return true 表示不为空，false 表示为空
      */
-    private boolean checkHeaderNull(View view) {
-        return view == null;
+    private boolean checkHeaderNull() {
+        return mHeaderView == null;
     }
 }

@@ -13,12 +13,12 @@ import java.util.List;
  * @author linjunhao
  * @date 2019/9/7
  */
-public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<ViewHolder> implements RecyclerViewItemTouch.ItemTouchListener {
 
-    private List<T> mDatas;
+    private List<T> mData;
 
-    public BaseRecyclerAdapter(List<T> mDatas) {
-        this.mDatas = mDatas;
+    public BaseRecyclerAdapter(List<T> mData) {
+        this.mData = mData;
     }
 
     public abstract int getLayoutId(int viewType);
@@ -31,12 +31,12 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        convert(holder, mDatas.get(position), position);
+        convert(holder, mData.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        return mDatas == null ? 0 : mDatas.size();
+        return mData == null ? 0 : mData.size();
     }
 
     public abstract void convert(ViewHolder holder, T data, int position);
